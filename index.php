@@ -4,6 +4,7 @@ use Afbora\Template;
 use Kirby\Cms\App as Kirby;
 
 @include_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/helpers.php';
 
 Kirby::plugin('afbora/blade', [
     'options' => [
