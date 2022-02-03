@@ -30,5 +30,10 @@ Kirby::plugin('afbora/blade', [
                 return false;
             }
         ]
-    ]
+    ],
+    'hooks' => [
+        'system.loadPlugins:after' => function () {
+            Template::setConfig();
+        },
+    ],
 ]);

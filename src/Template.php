@@ -9,21 +9,19 @@ use Kirby\Cms\App as Kirby;
 use Kirby\Cms\Template as KirbyTemplate;
 use Kirby\Toolkit\F;
 use Kirby\Toolkit\Tpl;
-use Kirby\Toolkit\Dir;
 use voku\helper\HtmlMin;
 
 class Template extends KirbyTemplate
 {
-    protected BladeFactory $blade;
+    protected static BladeFactory $blade;
 
     public function __construct(Kirby $kirby, string $name, string $type = 'html', string $defaultType = 'html')
     {
         parent::__construct($name, $type, $defaultType);
-
-        $this->blade = new BladeFactory([$this->getPathTemplates()], $this->getPathViews());
+        static::setConfig();
     }
 
-    protected function getPathTemplates()
+    public static function getPathTemplates()
     {
         $optionPath = option('afbora.blade.templates');
 
@@ -34,13 +32,13 @@ class Template extends KirbyTemplate
 
             $path = kirby()->roots()->index() . "/" . $optionPath;
         } else {
-            $path = $this->root();
+            $path = kirby()->root('templates');
         }
 
         return $path;
     }
 
-    protected function getPathViews()
+    public static function getPathViews()
     {
         $path = option('afbora.blade.views');
 
@@ -54,15 +52,15 @@ class Template extends KirbyTemplate
     public function render(array $data = []): string
     {
         if ($this->isBlade() && $this->hasDefaultType() === true) {
-            $this->setDirectives();
-            $this->setIfStatements();
+            // static::setDirectives();
+            // static::setIfStatements();
 
-            View::share('kirby', $data['kirby']);
-            View::share('site', $data['site']);
-            View::share('pages', $data['pages']);
-            View::share('page', $data['page']);
+            View::share('kirby', $data['kirby'] ?? kirby());
+            View::share('site', $data['site'] ?? site());
+            View::share('pages', $data['pages'] ?? pages());
+            View::share('page', $data['page'] ?? page());
 
-            $html = $this->blade->getViewFactory()->make($this->name, $data)->render();
+            $html = static::$blade->getViewFactory()->make($this->name, $data)->render();
         } else {
             $html = Tpl::load($this->file(), $data);
         }
@@ -92,7 +90,7 @@ class Template extends KirbyTemplate
         return 'blade.php';
     }
 
-    protected function setDirectives()
+    public static function setDirectives()
     {
         Blade::directive('asset', function (string $path) {
             return "<?php echo asset($path) ?>";
@@ -316,7 +314,7 @@ class Template extends KirbyTemplate
         }
     }
 
-    protected function setIfStatements()
+    public static function setIfStatements()
     {
         foreach (option('afbora.blade.ifs', []) as $statement => $callback) {
             Blade::if($statement, $callback);
@@ -356,6 +354,23 @@ class Template extends KirbyTemplate
             // This might be null if the template does not exist.
             return Kirby::instance()->extension($this->store(), $name);
         }
+    }
+
+    public static function setConfig(): void
+    {
+        if (isset(static::$blade)) {
+            return;
+        }
+
+        static::$blade = new BladeFactory([Template::getPathTemplates()], Template::getPathViews());
+
+        Template::setDirectives();
+        Template::setIfStatements();
+
+        View::share('kirby', kirby());
+        View::share('site', site());
+        View::share('pages', pages());
+        View::share('page', page());
     }
 
     public function getFilename(string $name = null): string
