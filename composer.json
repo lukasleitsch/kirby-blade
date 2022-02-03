@@ -39,7 +39,10 @@
   "autoload": {
     "psr-4": {
       "Afbora\\": "src/"
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
   },
   "minimum-stability": "dev",
   "prefer-stable": true
