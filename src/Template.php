@@ -34,10 +34,18 @@ class Template extends KirbyTemplate
             View::share('pages', $data['pages']);
             View::share('page', $data['page']);
 
-            return View::file($this->file(), $data)->render();
+            $html = View::file($this->file(), $data)->render();
+        } else {
+            $html = Tpl::load($this->file(), $data);
         }
 
-        return Tpl::load($this->file(), $data);
+        $callback = option('leitsch.blade.callback', null);
+
+        if ($callback && is_callable($callback)) {
+            return $callback($html);
+        }
+
+        return $html;
     }
 
     public function isBlade(): bool
