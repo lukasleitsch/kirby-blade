@@ -45,7 +45,6 @@ The default values of the package are:
 | leitsch.blade.views          | site/cache/views | (string) | Location of the views cached |
 | leitsch.blade.directives     | [] | (array) | Array with the custom directives |
 | leitsch.blade.ifs            | [] | (array) | Array with the custom if statements |
-| leitsch.blade.callback       | null | (callable) | Callback applied after rendering |
 
 All the values can be updated in the `config.php` file.
 
@@ -145,17 +144,27 @@ After declaration you can use it like:
 @endlogged
 ```
 
-### Callback
+### Hook
 
-For use cases such as HTML minification, there's a hook for manipulating rendered HTML output:
+For use cases such as HTML minification, there's a custom hook for manipulating rendered HTML output:
 
 ```php
-'leitsch.blade.callback' => function (string $html) {
-    # For this example, we are using 'voku/html-min'
-    $htmlMin = new \voku\helper\HtmlMin();
+# site/config/config.php
 
-    return $htmlMin->minify($html);
-},
+# For this example, we are using 'voku/html-min'
+use voku\helper\HtmlMin;
+
+return [
+    # ...
+
+    'hooks' => [
+        'blade.render:after' => function (string $html): string {
+            return (new HtmlMin())->minify($html);
+        },
+    ],
+
+    # ...
+];
 ```
 
 ## Credits

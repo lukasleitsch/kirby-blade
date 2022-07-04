@@ -39,13 +39,7 @@ class Template extends KirbyTemplate
             $html = Tpl::load($this->file(), $data);
         }
 
-        $callback = option('leitsch.blade.callback', null);
-
-        if ($callback && is_callable($callback)) {
-            return $callback($html);
-        }
-
-        return $html;
+        return App::instance()->apply('blade.render:after', compact('html'), 'html');
     }
 
     public function isBlade(): bool
