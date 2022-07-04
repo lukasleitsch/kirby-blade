@@ -31,7 +31,7 @@ class BladeDirectives
         Blade::directive('gist', function (string $expression) {
             return
                 "<?php \$args = [$expression]; \$params = ['gist' => \$args[0]]; " .
-                "if (isset(\$args[1])) \$params['file'] = \$args[1];" . 
+                "if (isset(\$args[1])) \$params['file'] = \$args[1];" .
                 "echo \\Kirby\\Cms\\App::instance()->kirbytag(\$params) ?>";
         });
 
@@ -52,7 +52,6 @@ class BladeDirectives
         });
 
         Blade::directive('kirbytag', function (string $expression) {
-
             return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytag($expression) ?>";
         });
 
