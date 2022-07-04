@@ -8,221 +8,134 @@ class BladeDirectives
 {
     public static function register()
     {
-        Blade::directive('asset', function (string $path) {
-            return "<?php echo asset($path) ?>";
+        Blade::directive('asset', function (string $expression) {
+            return "<?php echo (new \\Kirby\\Cms\\Asset({$expression})) ?>";
         });
 
-        Blade::directive('csrf', function () {
-            return "<?php echo csrf() ?>";
-        });
-
-        Blade::directive('css', function (string $url, array $options = []) {
-            if ($options) {
-                return "<?php echo css($url, $options) ?>";
+        Blade::directive('csrf', function (string $expression) {
+            if (strlen($expression) === 0) {
+                return "<?php echo \\Kirby\\Cms\\App::instance()->csrf() ?>";
             }
 
-            return "<?php echo css($url) ?>";
+            return "<?php echo \\Kirby\\Cms\\App::instance()->csrf({$expression}) ?>";
         });
 
-        Blade::directive('e', function (mixed $condition, mixed $value, mixed $alternative = null) {
-            if ($alternative) {
-                return "<?php echo e($condition, $value, $alternative) ?>";
-            }
-
-            return "<?php echo e($condition, $value) ?>";
+        Blade::directive('css', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\Html::css({$expression}) ?>";
         });
 
-        Blade::directive('get', function (string $key, mixed $default = null) {
-            if ($default) {
-                return "<?php echo get($key, $default) ?>";
-            }
-
-            return "<?php echo get($key) ?>";
+        Blade::directive('get', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->request()->get({$expression}) ?>";
         });
 
-        Blade::directive('gist', function (string $url, string $file = null) {
-            if ($file) {
-                return "<?php echo gist($url, $file) ?>";
-            }
-
-            return "<?php echo gist($url) ?>";
+        Blade::directive('gist', function (string $expression) {
+            return
+                "<?php \$args = [$expression]; \$params = ['gist' => \$args[0]]; " .
+                "if (isset(\$args[1])) \$params['file'] = \$args[1];" . 
+                "echo \\Kirby\\Cms\\App::instance()->kirbytag(\$params) ?>";
         });
 
-        Blade::directive('h', function (string $string, bool $keepTags = false) {
-            if ($keepTags) {
-                return "<?php echo h($string, $keepTags) ?>";
-            }
-
-            return "<?php echo h($string) ?>";
+        Blade::directive('h', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\Html::encode({$expression}) ?>";
         });
 
-        Blade::directive('html', function (string $string, bool $keepTags = false) {
-            if ($keepTags) {
-                return "<?php echo html($string, $keepTags) ?>";
-            }
-
-            return "<?php echo html($string) ?>";
+        Blade::directive('html', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\Html::encode({$expression}) ?>";
         });
 
-        Blade::directive('js', function ($url, array $options = []) {
-            if ($options) {
-                return "<?php echo js($url, $options) ?>";
-            }
-
-            return "<?php echo js($url) ?>";
+        Blade::directive('js', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\Html::js({$expression}) ?>";
         });
 
-        Blade::directive('image', function (string $path) {
-            return "<?php echo image($path) ?>";
+        Blade::directive('image', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->image({$expression}) ?>";
         });
 
-        Blade::directive('kirbytag', function (mixed $type, string $value, array $attr = []) {
-            if ($attr) {
-                return "<?php echo kirbytag($type, $value, $attr) ?>";
-            }
+        Blade::directive('kirbytag', function (string $expression) {
 
-            return "<?php echo kirbytag($type, $value) ?>";
+            return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytag($expression) ?>";
         });
 
-        Blade::directive('kirbytext', function (string $text, array $data = []) {
-            if ($data) {
-                return "<?php echo kirbytext($text, $data) ?>";
-            }
-
-            return "<?php echo kirbytext($text) ?>";
+        Blade::directive('kirbytext', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytext($expression) ?>";
         });
 
-        Blade::directive('kirbytextinline', function (string $text, array $data = []) {
-            if ($data) {
-                return "<?php echo kirbytextinline($text, $data) ?>";
-            }
-
-            return "<?php echo kirbytextinline($text) ?>";
+        Blade::directive('kirbytextinline', function (string $expression) {
+            return
+                "<?php \$args = [$expression]; " .
+                "if(! isset(\$args[1]) || ! is_array(\$args[1])) \$args[1] = []; " .
+                "if(! isset(\$args[1]['markdown']) || ! is_array(\$args[1]['markdown'])) \$args[1]['markdown'] = []; " .
+                "\$args[1]['markdown']['inline'] = true; " .
+                "echo \\Kirby\\Cms\\App::instance()->kirbytext(...\$args); ?>";
         });
 
-        Blade::directive('kt', function (string $text, array $data = []) {
-            if ($data) {
-                return "<?php echo kirbytext($text, $data) ?>";
-            }
-
-            return "<?php echo kirbytext($text) ?>";
+        Blade::directive('kt', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytext({$expression}) ?>";
         });
 
-        Blade::directive('markdown', function (string $text) {
-            return "<?php echo markdown($text) ?>";
+        Blade::directive('markdown', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->markdonw({$expression}) ?>";
         });
 
-        Blade::directive('option', function (string $key, mixed $default = null) {
-            if ($default) {
-                return "<?php echo option($key, $default) ?>";
-            }
-
-            return "<?php echo option($key) ?>";
+        Blade::directive('option', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->option({$expression}) ?>";
         });
 
 
-        Blade::directive('param', function (string $key, string $fallback = null) {
-            if ($fallback) {
-                return "<?php echo param($key, $fallback) ?>";
-            }
-
-            return "<?php echo param($key) ?>";
+        Blade::directive('param', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->param({$expression}) ?>";
         });
 
-        Blade::directive('size', function (mixed $value) {
-            return "<?php echo size($value) ?>";
+        Blade::directive('size', function (mixed $expression) {
+            return "<?php echo \\Kirby\\Cms\\Helpers::size({$expression}) ?>";
         });
 
-        Blade::directive('smartypants', function (string $text) {
-            return "<?php echo smartypants($text) ?>";
+        Blade::directive('smartypants', function (string $expression) {
+            return "<?php echo \\Kirby\\Cms\\App::instance()->smartypants({$expression}) ?>";
         });
 
-        Blade::directive('snippet', function (string $name, mixed $data = null) {
-            if ($data) {
-                return "<?php echo snippet($name, $data) ?>";
-            }
-
-            return "<?php echo snippet($name) ?>";
+        Blade::directive('snippet', function (string $expression) {
+            return "<?php snippet({$expression}) ?>";
         });
 
-        Blade::directive('svg', function (string $file) {
-            return "<?php echo svg($file) ?>";
+        Blade::directive('svg', function (string $expression) {
+            return "<?php echo svg({$expression}) ?>";
         });
 
-        Blade::directive('t', function (mixed $key, string $fallback = null) {
-            if ($fallback) {
-                return "<?php echo t($key, $fallback) ?>";
-            }
-
-            return "<?php echo t($key) ?>";
+        Blade::directive('t', function (string $expression) {
+            return "<?php echo t({$expression}) ?>";
         });
 
-        Blade::directive('tc', function (mixed $key, int $count) {
-            return "<?php echo tc($key, $count) ?>";
+        Blade::directive('tc', function (string $expression) {
+            return "<?php echo tc({$expression}) ?>";
         });
 
-        Blade::directive('twitter', function (string $username, string $text = null, string $title = null, string $class = null) {
-            if ($text) {
-                return "<?php echo twitter($username, $text) ?>";
-            } elseif ($text && $title) {
-                return "<?php echo twitter($username, $text, $title) ?>";
-            } elseif ($text && $title && $class) {
-                return "<?php echo twitter($username, $text, $title, $class) ?>";
-            }
-
-            return "<?php echo twitter($username) ?>";
+        Blade::directive('twitter', function (string $expression) {
+            return "<?php echo twitter({$expression}) ?>";
         });
 
-        Blade::directive('u', function (string $path = null, mixed $options = null) {
-            if ($options) {
-                return "<?php echo u($path, $options) ?>";
-            }
-
-            return "<?php echo u($path) ?>";
+        Blade::directive('u', function (string $expression) {
+            return "<?php echo u({$expression}) ?>";
         });
 
-        Blade::directive('url', function (string $path = null, mixed $options = null) {
-            if ($path) {
-                return "<?php echo url($path) ?>";
-            } elseif ($path && $options) {
-                return "<?php echo url($path, $options) ?>";
-            }
-
-            return "<?php echo url() ?>";
+        Blade::directive('url', function (string $expression) {
+            return "<?php echo url({$expression}) ?>";
         });
 
-        Blade::directive('video', function (string $url, array $options = [], array $attr = []) {
-            if ($options) {
-                return "<?php echo video($url, $options) ?>";
-            } elseif ($options && $attr) {
-                return "<?php echo video($url, $options, $attr) ?>";
-            }
-
-            return "<?php echo video($url) ?>";
+        Blade::directive('video', function (string $expression) {
+            return "<?php echo video({$expression}) ?>";
         });
 
-        Blade::directive('vimeo', function (string $url, array $options = [], array $attr = []) {
-            if ($options) {
-                return "<?php echo vimeo($url, $options) ?>";
-            } elseif ($options && $attr) {
-                return "<?php echo vimeo($url, $options, $attr) ?>";
-            }
-
-            return "<?php echo vimeo($url) ?>";
+        Blade::directive('vimeo', function (string $expression) {
+            return "<?php echo vimeo({$expression}) ?>";
         });
 
-        Blade::directive('widont', function (string $string) {
-            return "<?php echo widont($string) ?>";
+        Blade::directive('widont', function (string $expression) {
+            return "<?php echo widont({$expression}) ?>";
         });
 
-        Blade::directive('youtube', function (string $url, array $options = [], array $attr = []) {
-            if ($options) {
-                return "<?php echo youtube($url, $options) ?>";
-            } elseif ($options && $attr) {
-                return "<?php echo youtube($url, $options, $attr) ?>";
-            }
-
-            return "<?php echo youtube($url) ?>";
+        Blade::directive('youtube', function (string $expression) {
+            return "<?php echo youtube({$expression}) ?>";
         });
 
         foreach ($directives = option('leitsch.blade.directives', []) as $directive => $callback) {
