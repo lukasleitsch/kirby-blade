@@ -9,92 +9,91 @@ class BladeDirectives
     public static function register()
     {
         Blade::directive('asset', function (string $expression) {
-            return "<?php echo (new \\Kirby\\Cms\\Asset({$expression})) ?>";
+            return "<?php echo asset({$expression})) ?>";
+        });
+
+        Blade::directive('attr', function (string $expression) {
+            return "<?php echo attr({$expression})) ?>";
         });
 
         Blade::directive('csrf', function (string $expression) {
             if (strlen($expression) === 0) {
-                return "<?php echo \\Kirby\\Cms\\App::instance()->csrf() ?>";
+                return "<?php echo csrf() ?>";
             }
 
-            return "<?php echo \\Kirby\\Cms\\App::instance()->csrf({$expression}) ?>";
+            return "<?php echo csrf({$expression}) ?>";
         });
 
         Blade::directive('css', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\Html::css({$expression}) ?>";
+            return "<?php echo css({$expression}) ?>";
         });
 
         Blade::directive('get', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->request()->get({$expression}) ?>";
+            return "<?php echo get({$expression}) ?>";
         });
 
         Blade::directive('gist', function (string $expression) {
-            return
-                "<?php \$args = [$expression]; \$params = ['gist' => \$args[0]]; " .
-                "if (isset(\$args[1])) \$params['file'] = \$args[1];" .
-                "echo \\Kirby\\Cms\\App::instance()->kirbytag(\$params) ?>";
+            return "<?php echo gist({$expression}) ?>";
         });
 
         Blade::directive('h', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\Html::encode({$expression}) ?>";
+            return "<?php echo h({$expression}) ?>";
         });
 
         Blade::directive('html', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\Html::encode({$expression}) ?>";
+            return "<?php echo html({$expression}) ?>";
         });
 
         Blade::directive('js', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\Html::js({$expression}) ?>";
+            return "<?php echo js({$expression}) ?>";
         });
 
         Blade::directive('image', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->image({$expression}) ?>";
+            return "<?php echo image({$expression}) ?>";
         });
 
         Blade::directive('kirbytag', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytag($expression) ?>";
+            return "<?php echo kirbytag($expression) ?>";
         });
 
         Blade::directive('kirbytext', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytext($expression) ?>";
+            return "<?php echo kirbytext($expression) ?>";
         });
 
         Blade::directive('kirbytextinline', function (string $expression) {
-            return
-                "<?php \$args = [$expression]; " .
-                "if(! isset(\$args[1]) || ! is_array(\$args[1])) \$args[1] = []; " .
-                "if(! isset(\$args[1]['markdown']) || ! is_array(\$args[1]['markdown'])) \$args[1]['markdown'] = []; " .
-                "\$args[1]['markdown']['inline'] = true; " .
-                "echo \\Kirby\\Cms\\App::instance()->kirbytext(...\$args); ?>";
+            return "<?php echo kirbytextinline($expression) ?>";
         });
 
         Blade::directive('kt', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->kirbytext({$expression}) ?>";
+            return "<?php echo kt({$expression}) ?>";
+        });
+
+        Blade::directive('kti', function (string $expression) {
+            return "<?php echo kti({$expression}) ?>";
         });
 
         Blade::directive('markdown', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->markdonw({$expression}) ?>";
+            return "<?php echo markdown({$expression}) ?>";
         });
 
         Blade::directive('option', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->option({$expression}) ?>";
+            return "<?php echo option({$expression}) ?>";
         });
 
-
         Blade::directive('param', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->param({$expression}) ?>";
+            return "<?php echo param({$expression}) ?>";
         });
 
         Blade::directive('size', function (mixed $expression) {
-            return "<?php echo \\Kirby\\Cms\\Helpers::size({$expression}) ?>";
+            return "<?php echo size({$expression}) ?>";
         });
 
         Blade::directive('smartypants', function (string $expression) {
-            return "<?php echo \\Kirby\\Cms\\App::instance()->smartypants({$expression}) ?>";
+            return "<?php echo smartypants({$expression}) ?>";
         });
 
         Blade::directive('snippet', function (string $expression) {
-            return "<?php snippet({$expression}) ?>";
+            return "<?php echo snippet({$expression}) ?>";
         });
 
         Blade::directive('svg', function (string $expression) {
@@ -109,6 +108,14 @@ class BladeDirectives
             return "<?php echo tc({$expression}) ?>";
         });
 
+        Blade::directive('timestamp', function (string $expression) {
+            return "<?php echo timestamp({$expression}) ?>";
+        });
+
+        Blade::directive('tt', function (string $expression) {
+            return "<?php echo tt({$expression}) ?>";
+        });
+
         Blade::directive('twitter', function (string $expression) {
             return "<?php echo twitter({$expression}) ?>";
         });
@@ -119,6 +126,10 @@ class BladeDirectives
 
         Blade::directive('url', function (string $expression) {
             return "<?php echo url({$expression}) ?>";
+        });
+
+        Blade::directive('uuid', function (string $expression) {
+            return "<?php echo uuid({$expression}) ?>";
         });
 
         Blade::directive('video', function (string $expression) {
@@ -137,7 +148,7 @@ class BladeDirectives
             return "<?php echo youtube({$expression}) ?>";
         });
 
-        foreach ($directives = option('leitsch.blade.directives', []) as $directive => $callback) {
+        foreach (option('leitsch.blade.directives', []) as $directive => $callback) {
             Blade::directive($directive, $callback);
         }
     }
