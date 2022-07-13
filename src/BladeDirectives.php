@@ -128,8 +128,8 @@ class BladeDirectives
             return "<?php echo url({$expression}) ?>";
         });
 
-        Blade::directive('uuid', function (string $expression) {
-            return "<?php echo uuid({$expression}) ?>";
+        Blade::directive('uuid', function () {
+            return "<?php echo uuid() ?>";
         });
 
         Blade::directive('video', function (string $expression) {
