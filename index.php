@@ -1,6 +1,7 @@
 <?php
 
 use Kirby\Cms\App as Kirby;
+use Kirby\Toolkit\A;
 use Leitsch\Blade\BladeDirectives;
 use Leitsch\Blade\BladeFactory;
 use Leitsch\Blade\BladeIfStatements;
@@ -28,7 +29,24 @@ Kirby::plugin('leitsch/blade', [
     ],
     'hooks' => [
         'system.loadPlugins:after' => function () {
-            BladeFactory::register([Paths::getPathTemplates()], Paths::getPathViews());
+            $componentModels = [];
+            $componentNamespaces = [];
+            $templatePaths = [];
+
+            // stuff from other plugins
+            foreach (kirby()->plugins() as $plugin) {
+                $extends = $plugin->extends();
+                $componentModels = array_merge($componentModels, array_flip(A::get($extends, 'blade.components', [])));
+                $componentNamespaces = array_merge($componentNamespaces, A::get($extends, 'blade.namespaces', []));
+                $templatePaths = array_merge($templatePaths, A::wrap(A::get($extends, 'blade.templates', [])));
+            }
+
+            BladeFactory::register(
+                array_merge([Paths::getPathTemplates()], $templatePaths),
+                Paths::getPathViews(),
+                $componentModels,
+                $componentNamespaces
+            );
             BladeDirectives::register();
             BladeIfStatements::register();
         },

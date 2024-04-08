@@ -35,3 +35,9 @@ if (! function_exists('component')) {
         return View::make("components.{$name}", $props);
     }
 }
+
+if (! function_exists('view_make')) {
+    function make_view(string $view, array $data = [], array $mergeData = []) {
+        return View::make($view, $data, $mergeData);
+    }
+}

@@ -144,6 +144,68 @@ After declaration, you can use it like:
 @endlogged
 ```
 
+### Components
+
+Laravel allows the usage of custom [components](https://laravel.com/docs/9.x/blade#components) with a Vue-like syntax. You can register your components by adding them to the `site/components` directory. E.g. you want to have define a `<x-language-toggle active="de" />` component, you can either use an anonymous component, which contains all the code and goes to your templates directory:
+
+```blade
+# site/templates/components/language-toggle.blade.php
+
+@props([
+    'active',
+])
+
+<div>[…]</div>
+```
+
+For more extensive components, you might want to use a class instead. The easiest way would be to store the component model in `site/components`, very much like a [page model](https://getkirby.com/docs/guide/templates/page-models) in Kirby works:
+
+```php
+# site/components/language-toggle.php
+
+<?php
+
+class LanguageToggleComponent extends BladeComponent {
+    // ...
+}
+```
+
+Nested component (`<x-language-toggle.option />`):
+
+```php
+# site/components/language-toggle/option.php
+
+<?php
+
+class LanguageToggle_OptionComponent extends BladeComponent {
+    // ...
+}
+```
+
+
+You can also register components from other plugins. This allows you to define the models in custom namespaces and the usage of abitrary class names:
+
+```php
+#site/plugins/my-plugin/index.php
+
+<?php
+
+use My\Plugin\BladeComponents\LanguageToggle;
+
+Kirby::plugin('my/plugin', [
+    'blade.components' => [
+        'language-toggle' => LanguageToggle::class,
+    ],
+]);
+
+```
+
+If you want to use any component outside of a regular template, you can use the `component($name, $props = [], $attributes = [])` helper function:
+
+```php
+echo component('language-toggle', ['active' => 'de']);
+```
+
 ### Hook
 
 For use cases such as HTML minification, there's a custom hook for manipulating rendered HTML output:

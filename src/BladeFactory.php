@@ -18,8 +18,12 @@ use Illuminate\View\FileViewFinder;
 
 class BladeFactory
 {
-    public static function register(array $pathsToTemplates, string $pathToCompiledTemplates)
-    {
+    public static function register(
+        array $pathsToTemplates,
+        string $pathToCompiledTemplates,
+        array $components,
+        array $namespaces
+    ) {
         $container = App::getInstance();
 
         // we have to bind our app class to the interface
@@ -36,7 +40,25 @@ class BladeFactory
 
         $viewResolver->register('blade', fn () => new CompilerEngine($bladeCompiler));
 
-        $viewFinder = new FileViewFinder($filesystem, $pathsToTemplates);
+        $viewFinder = new class ($filesystem, $pathsToTemplates) extends FileViewFinder {
+            // public function find($name) {
+            //     die("findo: $name :");
+
+            //     if (isset($this->views[$name])) {
+            //         return $this->views[$name];
+            //     }
+
+            //     $class = str_replace(['.', '-', '_'], '', $name) . 'Component';
+
+            //     if (class_exists($class)) {
+            //         return $this->views[$name] = $class;
+            //     }
+
+            //     die("❌ no co | {$class} | {$name}");
+
+            //     return parent::find($name);
+            // }
+        };
         $viewFactory = new \Illuminate\View\Factory($viewResolver, $viewFinder, $eventDispatcher);
         $viewFactory->setContainer($container);
         Facade::setFacadeApplication($container);
@@ -67,7 +89,15 @@ class BladeFactory
         $config->set('view.compiled', $pathToCompiledTemplates);
         $container['config'] = $config;
 
-        $bladeCompiler->component('dynamic-component', DynamicComponent::class);
+        $bladeCompiler->component(DynamicComponent::class, 'dynamic-component');
+
+        foreach ($components as $name => $class) {
+            $bladeCompiler->component($name, $class);
+        }
+
+        foreach ($namespaces as $prefix => $namespace) {
+            $bladeCompiler->componentNamespace($namespace, $prefix);
+        }
 
         // Use Kirby’s internal uuid() helper function instead of
         // ramsey/uuid to avoid installation of several additional
