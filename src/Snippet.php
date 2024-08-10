@@ -14,8 +14,7 @@ class Snippet
         protected ?string $name,
         protected array $data = [],
         protected bool $slots = false
-    ) {
-    }
+    ) {}
 
     public function load(): string|KirbySnippet
     {

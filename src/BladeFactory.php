@@ -63,7 +63,7 @@ class BladeFactory
             })::getFacadeAccessor()
         );
 
-        $config = new Repository();
+        $config = new Repository;
         $config->set('view.compiled', $pathToCompiledTemplates);
         $container['config'] = $config;
 
