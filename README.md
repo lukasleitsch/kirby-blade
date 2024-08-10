@@ -9,7 +9,7 @@
 
 Kirby Blade use Laravel `illuminate/view` 11.x package and compatible with Kirby 4.
 
-This package enables [Laravel Blade](https://laravel.com/docs/9.x/blade) for your own Kirby applications.
+This package enables [Laravel Blade](https://laravel.com/docs/11.x/blade) for your own Kirby applications.
 
 ## Installation
 
@@ -31,9 +31,9 @@ According to Laravel Blade documentation is:
 
 ## Usage
 
-You can use the power of Blade like [Layouts](https://laravel.com/docs/9.x/blade#building-layouts), [Forms](https://laravel.com/docs/9.x/blade#forms), [Sub-Views](https://laravel.com/docs/9.x/blade#including-subviews), [Components](https://laravel.com/docs/9.x/blade#components), [Directives](https://laravel.com/docs/9.x/blade#blade-directives) and your custom if statements.
+You can use the power of Blade like [Layouts](https://laravel.com/docs/11.x/blade#building-layouts), [Forms](https://laravel.com/docs/11.x/blade#forms), [Sub-Views](https://laravel.com/docs/11.x/blade#including-subviews), [Components](https://laravel.com/docs/11.x/blade#components), [Directives](https://laravel.com/docs/11.x/blade#blade-directives) and your custom if statements.
 
-All the documentation about Laravel Blade is in the [official documentation](https://laravel.com/docs/9.x/blade).
+All the documentation about Laravel Blade is in the [official documentation](https://laravel.com/docs/11.x/blade).
 
 ## Options
 
@@ -143,6 +143,53 @@ After declaration, you can use it like:
     Please Log In
 @endlogged
 ```
+
+### Anonymous components
+
+To define an anonymous component, you only need to place a Blade template within your `site/templates/components` directory. To render an alert component you have to define `site/templates/components/alert.blade.php` and the component can be rendered like:
+
+```html
+<x-alert />
+```
+
+More about anonymous components in the [official Laravel Blade documentation](https://laravel.com/docs/11.x/blade#anonymous-components).
+
+### Class based components
+
+For class based components, the app namespace must be added to your project `composer.json`.
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
+```
+
+The class must be placed in the `site/components` directory and will be autoloaded by the package.
+
+A button class could look like:
+
+```php
+<?php
+
+namespace App\View\Components;
+
+use Illuminate\Support\Facades\View;
+use Illuminate\View\Component;
+
+class Button extends Component
+{
+    public function render()
+    {
+        return View::make('components.button');
+    }
+}
+```
+
+The blade file of the button class should be placed in the `site/templates/components/button.blade.php` directory. 
 
 ### Hook
 
