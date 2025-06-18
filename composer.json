@@ -1,11 +1,9 @@
 {
   "name": "leitsch/kirby-blade",
-  "description": "Enable Laravel Blade Template Engine for Kirby 4",
-  "version": "3.0.4",
+  "description": "Enable Laravel Blade Template Engine for Kirby 5",
+  "version": "4.0.0",
   "keywords": [
     "kirby",
-    "kirby-4",
-    "kirby4-plugin",
     "kirby-plugin",
     "kirby-blade",
     "blade",
@@ -36,9 +34,9 @@
   "require": {
     "php": "^8.2",
     "getkirby/composer-installer": "^1.2",
-    "getkirby/cms": "^4.0",
-    "illuminate/config": "^11.0",
-    "illuminate/view": "^11.0"
+    "getkirby/cms": "^4.0|^5.0",
+    "illuminate/config": "^12.0",
+    "illuminate/view": "^12.0"
   },
   "require-dev": {
     "laravel/pint": "^1.14"
@@ -62,7 +60,6 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "extra": {
-    "installer-name": "blade",
-    "kirby-cms-path": false
+    "installer-name": "blade"
   }
 }

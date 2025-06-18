@@ -7,9 +7,9 @@
 [![Release](https://img.shields.io/github/v/release/lukasleitsch/kirby-blade?style=flat-square)](https://github.com/lukasleitsch/kirby-blade)
 [![License](https://img.shields.io/github/license/lukasleitsch/kirby-blade?style=flat-square)](https://github.com/lukasleitsch/kirby-blade)
 
-Kirby Blade use Laravel `illuminate/view` 11.x package and compatible with Kirby 4.
+Kirby Blade use Laravel `illuminate/view` 12.x package and compatible with Kirby 4 and Kirby 5.
 
-This package enables [Laravel Blade](https://laravel.com/docs/11.x/blade) for your own Kirby applications.
+This package enables [Laravel Blade](https://laravel.com/docs/12.x/blade) for your own Kirby applications.
 
 ## Installation
 
@@ -31,9 +31,9 @@ According to Laravel Blade documentation is:
 
 ## Usage
 
-You can use the power of Blade like [Layouts](https://laravel.com/docs/11.x/blade#building-layouts), [Forms](https://laravel.com/docs/11.x/blade#forms), [Sub-Views](https://laravel.com/docs/11.x/blade#including-subviews), [Components](https://laravel.com/docs/11.x/blade#components), [Directives](https://laravel.com/docs/11.x/blade#blade-directives) and your custom if statements.
+You can use the power of Blade like [Layouts](https://laravel.com/docs/12.x/blade#building-layouts), [Forms](https://laravel.com/docs/12.x/blade#forms), [Sub-Views](https://laravel.com/docs/12.x/blade#including-subviews), [Components](https://laravel.com/docs/12.x/blade#components), [Directives](https://laravel.com/docs/12.x/blade#blade-directives) and your custom if statements.
 
-All the documentation about Laravel Blade is in the [official documentation](https://laravel.com/docs/11.x/blade).
+All the documentation about Laravel Blade is in the [official documentation](https://laravel.com/docs/12.x/blade).
 
 ## Options
 
@@ -152,7 +152,7 @@ To define an anonymous component, you only need to place a Blade template within
 <x-alert />
 ```
 
-More about anonymous components in the [official Laravel Blade documentation](https://laravel.com/docs/11.x/blade#anonymous-components).
+More about anonymous components in the [official Laravel Blade documentation](https://laravel.com/docs/12.x/blade#anonymous-components).
 
 ### Class based components
 
