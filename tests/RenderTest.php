@@ -1,5 +1,7 @@
 <?php
 
+use Leitsch\Blade\BladeDirectives;
+
 it('renders a blade template with layout, snippet and escaped content', function () {
     // Act
     $html = $this->get('/')->body();
@@ -24,6 +26,24 @@ it('renders anonymous and class based components', function () {
     expect($html)
         ->toContain('<div class="alert alert-warning">Careful</div>')
         ->toContain('<button>SAVE</button>');
+});
+
+it('renders kirby helper and custom directives', function () {
+    // Act
+    $html = $this->get('/directives')->body();
+
+    // Assert
+    expect($html)
+        ->toContain('<strong>bold</strong>')
+        ->toContain('Hello Kirby')
+        ->toContain('Please log in')
+        ->not->toContain('Welcome back')
+        ->not->toContain("\n");
+});
+
+it('maps every directive to an existing kirby helper', function () {
+    // Act & Assert
+    expect(BladeDirectives::HELPERS)->each->toBeCallable();
 });
 
 it('does not expose blade templates as content representation', function () {

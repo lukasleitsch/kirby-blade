@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Blade;
 class BladeDirectives
 {
     // Kirby helpers that are available as directives, e.g. @kirbytext($text)
-    private const HELPERS = [
+    public const HELPERS = [
         'asset', 'attr', 'csrf', 'css', 'get', 'gist', 'h', 'html', 'image', 'js',
         'kirbytag', 'kirbytext', 'kirbytextinline', 'kt', 'kti', 'markdown', 'option',
         'param', 'size', 'smartypants', 'snippet', 'svg', 't', 'tc', 'timestamp', 'tt',
