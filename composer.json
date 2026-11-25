@@ -20,24 +20,27 @@
     }
   ],
   "scripts": {
-    "pint": "vendor/bin/pint"
+    "pint": "vendor/bin/pint",
+    "test": "@php -d auto_prepend_file=tests/bootstrap.php vendor/bin/pest"
   },
   "require": {
-    "php": "^8.3",
+    "php": "^8.4",
     "getkirby/composer-installer": "^1.2",
     "getkirby/cms": "^5.0|^6.0",
     "illuminate/config": "^13.0",
     "illuminate/view": "^13.0"
   },
   "require-dev": {
-    "laravel/pint": "^1.14"
+    "laravel/pint": "^1.14",
+    "pestphp/pest": "^5.0"
   },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
     "sort-packages": true,
     "allow-plugins": {
-      "getkirby/composer-installer": true
+      "getkirby/composer-installer": true,
+      "pestphp/pest-plugin": true
     }
   },
   "autoload": {
@@ -47,6 +50,12 @@
     "files": [
       "helpers.php"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\View\\Components\\": "tests/fixtures/app/View/Components/",
+      "Tests\\": "tests/"
+    }
   },
   "minimum-stability": "stable",
   "prefer-stable": true,

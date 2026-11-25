@@ -4,20 +4,18 @@ on:
   push:
     paths:
       - '**.php'
-  pull_request:
-    paths:
-      - '**.php'
 
 jobs:
   pint:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.5'
           coverage: none
 
       - name: Install composer dependencies
