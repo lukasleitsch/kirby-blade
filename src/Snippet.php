@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use Kirby\Cms\App as Kirby;
 use Kirby\Template\Snippet as KirbySnippet;
 use Kirby\Toolkit\A;
+use LogicException;
 
 class Snippet
 {
@@ -30,7 +31,10 @@ class Snippet
         }
 
         if (str_ends_with($file ?? '', Template::EXTENSION_BLADE)) {
-            // blade snippet
+            if ($this->slots) {
+                throw new LogicException("Blade snippet \"{$name}\" does not support Kirby slots, use a Blade component instead");
+            }
+
             return View::file($file, $this->data)->render();
         }
 

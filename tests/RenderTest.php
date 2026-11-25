@@ -21,6 +21,12 @@ it('renders plain php templates with kirby layout snippets', function () {
     expect($html)->toContain('<html><body><p>Plain rendered by PHP</p>');
 });
 
+it('rejects kirby slots in blade snippets', function () {
+    // Act & Assert
+    expect(fn () => snippet('greeting', slots: true))
+        ->toThrow(LogicException::class, 'Blade snippet "greeting" does not support Kirby slots');
+});
+
 it('renders anonymous and class based components', function () {
     // Act
     $html = $this->get('/components')->body();

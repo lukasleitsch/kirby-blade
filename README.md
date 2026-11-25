@@ -35,6 +35,8 @@ You can use the power of Blade like [Layouts](https://laravel.com/docs/13.x/blad
 
 All the documentation about Laravel Blade is in the [official documentation](https://laravel.com/docs/13.x/blade).
 
+Kirby's snippet slots and stacks (`slot()`, `push()`, `stack()`) only work in plain PHP templates and snippets. In Blade, use [components](https://laravel.com/docs/13.x/blade#slots) for slots and [`@push`/`@stack`](https://laravel.com/docs/13.x/blade#stacks) for stacks.
+
 ## Options
 
 The default values of the package are:
