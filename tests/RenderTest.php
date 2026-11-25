@@ -13,9 +13,12 @@ it('renders a blade template with layout, snippet and escaped content', function
         ->toContain('<p>Hello Spike</p>');
 });
 
-it('renders plain php templates', function () {
-    // Act & Assert
-    expect($this->get('/plain')->body())->toContain('<p>Plain rendered by PHP</p>');
+it('renders plain php templates with kirby layout snippets', function () {
+    // Act
+    $html = $this->get('/plain')->body();
+
+    // Assert
+    expect($html)->toContain('<html><body><p>Plain rendered by PHP</p>');
 });
 
 it('renders anonymous and class based components', function () {
