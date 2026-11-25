@@ -25,3 +25,8 @@ it('renders anonymous and class based components', function () {
         ->toContain('<div class="alert alert-warning">Careful</div>')
         ->toContain('<button>SAVE</button>');
 });
+
+it('does not expose blade templates as content representation', function () {
+    // Act & Assert
+    expect($this->get('/home.blade')->code())->toBe(404);
+});

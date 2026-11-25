@@ -34,13 +34,4 @@ Kirby::plugin('leitsch/blade', [
             BladeIfStatements::register();
         },
     ],
-    'routes' => [
-        [
-            // Block all requests to /url.blade and return 404
-            'pattern' => '(:all)\.blade',
-            'action' => function ($all) {
-                return false;
-            },
-        ],
-    ],
 ]);
