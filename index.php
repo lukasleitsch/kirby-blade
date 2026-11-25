@@ -23,7 +23,7 @@ Kirby::plugin('leitsch/blade', [
         'template' => function (Kirby $kirby, string $name, ?string $contentType = null, ?string $defaultType = 'html') {
             return new Template($kirby, $name, $contentType, $defaultType);
         },
-        'snippet' => function (Kirby $kirby, ?string $name, array $data = [], bool $slots = false): KirbySnippet|string {
+        'snippet' => function (Kirby $kirby, string|array|null $name, array $data = [], bool $slots = false): KirbySnippet|string {
             return (new Snippet($kirby, $name, $data, $slots))->load();
         },
     ],
