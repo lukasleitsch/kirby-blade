@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -54,7 +55,7 @@ class BladeFactory
         $container->instance(BladeCompiler::class, $bladeCompiler);
         $container->alias(
             BladeCompiler::class,
-            (new class extends \Illuminate\Support\Facades\Blade
+            (new class extends Blade
             {
                 public static function getFacadeAccessor()
                 {
