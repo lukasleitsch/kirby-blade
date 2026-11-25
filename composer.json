@@ -1,6 +1,6 @@
 {
   "name": "leitsch/kirby-blade",
-  "description": "Enable Laravel Blade Template Engine for Kirby 4 and Kirby 5",
+  "description": "Enable Laravel Blade Template Engine for Kirby 5 and Kirby 6",
   "version": "3.1.1",
   "keywords": [
     "kirby",
@@ -18,25 +18,17 @@
     {
       "name": "Lukas Leitsch",
       "email": "lukas@leitsch.org"
-    },
-    {
-      "name": "Fabian Michael",
-      "email": "hallo@fabianmichael.de"
-    },
-    {
-      "name": "Ahmet Bora",
-      "email": "ahmet@getkirby.com"
     }
   ],
   "scripts": {
     "pint": "vendor/bin/pint"
   },
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "getkirby/composer-installer": "^1.2",
-    "getkirby/cms": "^4.0|^5.0",
-    "illuminate/config": "^12.0",
-    "illuminate/view": "^12.0"
+    "getkirby/cms": "^5.0|^6.0",
+    "illuminate/config": "^13.0",
+    "illuminate/view": "^13.0"
   },
   "require-dev": {
     "laravel/pint": "^1.14"
