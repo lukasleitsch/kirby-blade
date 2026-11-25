@@ -1,7 +1,6 @@
 {
   "name": "leitsch/kirby-blade",
   "description": "Enable Laravel Blade Template Engine for Kirby 5 and Kirby 6",
-  "version": "3.1.1",
   "keywords": [
     "kirby",
     "kirby-plugin",
