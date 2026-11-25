@@ -11,7 +11,7 @@ class Snippet
 {
     public function __construct(
         protected Kirby $kirby,
-        protected ?string $name,
+        protected string|array|null $name,
         protected array $data = [],
         protected bool $slots = false
     ) {}

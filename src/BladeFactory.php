@@ -7,9 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\DynamicComponent;
@@ -42,27 +40,9 @@ class BladeFactory
         $viewFactory->setContainer($container);
         Facade::setFacadeApplication($container);
         $container->instance(Factory::class, $viewFactory);
-        $container->alias(
-            Factory::class,
-            (new class extends View
-            {
-                public static function getFacadeAccessor()
-                {
-                    return parent::getFacadeAccessor();
-                }
-            })::getFacadeAccessor()
-        );
+        $container->alias(Factory::class, 'view');
         $container->instance(BladeCompiler::class, $bladeCompiler);
-        $container->alias(
-            BladeCompiler::class,
-            (new class extends Blade
-            {
-                public static function getFacadeAccessor()
-                {
-                    return parent::getFacadeAccessor();
-                }
-            })::getFacadeAccessor()
-        );
+        $container->alias(BladeCompiler::class, 'blade.compiler');
 
         $config = new Repository;
         $config->set('view.compiled', $pathToCompiledTemplates);

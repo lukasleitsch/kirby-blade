@@ -7,7 +7,7 @@
 [![Release](https://img.shields.io/github/v/release/lukasleitsch/kirby-blade?style=flat-square)](https://github.com/lukasleitsch/kirby-blade)
 [![License](https://img.shields.io/github/license/lukasleitsch/kirby-blade?style=flat-square)](https://github.com/lukasleitsch/kirby-blade)
 
-Kirby Blade use Laravel `illuminate/view` 13.x package and compatible with Kirby 5 and Kirby 6.
+Kirby Blade uses Laravel's `illuminate/view` 13.x and works with Kirby 5 and Kirby 6.
 
 This package enables [Laravel Blade](https://laravel.com/docs/13.x/blade) for your own Kirby applications.
 
@@ -17,7 +17,7 @@ This package enables [Laravel Blade](https://laravel.com/docs/13.x/blade) for yo
 composer require leitsch/kirby-blade
 ```
 
-**Caveat:** Laravel and Kirby both define the `e()` helper function, but they do vastly different things. In Kirby, `e()` is basically just a shortcut for `echo $condition ? $a : $b;`. In Laravel, this function escapes HTML characters in a string. From Kirby 3.7 and up, you have to disable Kirby’s own `e()` helper by adding a single line of code to your `index.php`, before including the `autoload.php` file:
+**Caveat:** Laravel and Kirby both define the `e()` helper function, but they do vastly different things. In Kirby, `e()` is basically just a shortcut for `echo $condition ? $a : $b;`. In Laravel, this function escapes HTML characters in a string. You have to disable Kirby’s own `e()` helper by adding a single line of code to your `index.php`, before including the `autoload.php` file:
 
 ```php
 define('KIRBY_HELPER_E', false);
@@ -66,44 +66,12 @@ All the views generated are stored in `site/cache/views` directory or wherever y
 
 ### Directives
 
-By default, Kirby Blade comes with following directives:
+Kirby Blade comes with a directive for each of these Kirby helpers. A directive takes the same arguments as the helper, for example `@kirbytext($page->text())` or `@image('forest.jpg')`:
 
-```php
-@asset($path)
-@csrf()
-@css($path)
-@dump($variable)
-@e($condition, $value, $alternative)
-@get($key, $default)
-@gist($url)
-@go($url, $code)
-@h($string, $keepTags)
-@html($string, $keepTags)
-@js($path)
-@image($path, $attr) // @image('forrest.jpg', 'url')
-@kirbytag($type, $value, $attr)
-@kirbytags($text, $data)
-@kirbytext($text, $data)
-@kirbytextinline($text)
-@kt($text)
-@markdown($text)
-@option($key, $default)
-@page($key, $attr) // @page('blog', 'title')
-@param($key, $fallback)
-@site($attr) // @site(title')
-@size($value)
-@smartypants($text)
-@snippet($name, $data)
-@svg($file)
-@t($key, $fallback)
-@tc($key, $count)
-@tt($key, $fallback, $replace, $locale)
-@u($path, $options)
-@url($path, $options)
-@video($url, $options, $attr)
-@vimeo($url, $options, $attr)
-@widont($string)
-@youtube($url, $options, $attr)
+```
+@asset @attr @csrf @css @get @gist @h @html @image @js @kirbytag @kirbytext
+@kirbytextinline @kt @kti @markdown @option @param @size @smartypants @snippet
+@svg @t @tc @timestamp @tt @u @url @uuid @video @vimeo @widont @youtube
 ```
 
 But you can create your own:
@@ -168,7 +136,7 @@ For class based components, the app namespace must be added to your project `com
 }
 ```
 
-The class must be placed in the `site/components` directory and will be autoloaded by the package.
+Place the class in `app/View/Components`, Blade finds it through the `App\View\Components` namespace.
 
 A button class could look like:
 
