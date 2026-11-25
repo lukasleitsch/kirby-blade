@@ -2,3 +2,5 @@
 .github/ export-ignore
 .gitignore export-ignore
 .php-cs-fixer.dist.php export-ignore
+tests/ export-ignore
+phpunit.xml export-ignore
