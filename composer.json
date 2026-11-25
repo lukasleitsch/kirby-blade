@@ -23,7 +23,7 @@
     "pint": "vendor/bin/pint"
   },
   "require": {
-    "php": "^8.3",
+    "php": "^8.4",
     "getkirby/composer-installer": "^1.2",
     "getkirby/cms": "^5.0|^6.0",
     "illuminate/config": "^13.0",
