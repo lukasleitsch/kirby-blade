@@ -13,9 +13,18 @@ it('renders a blade template with layout, snippet and escaped content', function
         ->toContain('<p>Hello Spike</p>');
 });
 
-it('renders plain php templates', function () {
+it('renders plain php templates with kirby layout snippets', function () {
+    // Act
+    $html = $this->get('/plain')->body();
+
+    // Assert
+    expect($html)->toContain('<html><body><p>Plain rendered by PHP</p>');
+});
+
+it('rejects kirby slots in blade snippets', function () {
     // Act & Assert
-    expect($this->get('/plain')->body())->toContain('<p>Plain rendered by PHP</p>');
+    expect(fn () => snippet('greeting', slots: true))
+        ->toThrow(LogicException::class, 'Blade snippet "greeting" does not support Kirby slots');
 });
 
 it('renders anonymous and class based components', function () {

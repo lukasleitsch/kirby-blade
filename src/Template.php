@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\View;
 use Kirby\Cms\App;
 use Kirby\Filesystem\F;
 use Kirby\Template\Template as KirbyTemplate;
-use Kirby\Toolkit\Tpl;
 
 class Template extends KirbyTemplate
 {
@@ -39,7 +38,7 @@ class Template extends KirbyTemplate
 
             $html = View::file($this->file(), $data)->render();
         } else {
-            $html = Tpl::load($this->file(), $data);
+            $html = parent::render($data);
         }
 
         return App::instance()->apply('blade.render:after', compact('html'), 'html');
